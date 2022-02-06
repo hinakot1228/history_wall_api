@@ -4,17 +4,40 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Question;
+use App\Models\QuestionText;
 
 class QuestionController extends Controller
 {
-    public function create(){
-        return view('create');
+    public function create()
+    {
+        $question_texts = QuestionText::all();
+        return view('create', ['question_texts' => $question_texts]);
     }
-    
+
     public function store(Request $request)
     {
         $question = new Question;
+
+        $request->validate(
+            [
+                'name' => ['required'],
+                'period' => ['required'],
+                'question_text_1_1' => ['required'],
+                'question_text_2_1' => ['required'],
+                'question_text_3_1' => ['required'],
+                'question_text_4_1' => ['required'],
+                'answer_text_1_1' => ['required'],
+                'answer_text_2_1' => ['required'],
+                'answer_text_3_1' => ['required'],
+                'answer_text_4_1' => ['required'],
+                'image_path' => ['required'],
+                'position' => ['required'],
+                'explanation' => ['required'],
+            ],
+        );
+
         $question->name = $request->name;
+        $question->period = $request->period;
         $question->question_text_1_1 = $request->question_text_1_1;
         $question->answer_text_1_1 = $request->answer_text_1_1;
         $question->question_text_1_2 = $request->question_text_1_2;
@@ -61,21 +84,19 @@ class QuestionController extends Controller
         $questions = Question::all();
         // dd($questions);
 
-        return view('index', ['questions'=>$questions]);
+        return view('index', ['questions' => $questions]);
     }
 
     public function show($id)
     {
         $question = Question::find($id);
-        // dd($question);
-
-        return view('show', ['question'=>$question]);
+        return view('show', ['question' => $question]);
     }
 
     public function edit($id)
     {
         $question = Question::find($id);
-        return view('questions.edit', ['question'=>$question]);
+        return view('questions.edit', ['question' => $question]);
     }
 
     public function update(Request $request, $id)
@@ -121,10 +142,11 @@ class QuestionController extends Controller
         $question->save();
 
         $questions = Question::all();
-        return view('index', ['questions'=>$questions]);
+        return view('index', ['questions' => $questions]);
     }
 
-    public function getQuestion($id){
+    public function getQuestion($id)
+    {
         $question = Question::find($id);
 
         return response()->json(
@@ -132,7 +154,7 @@ class QuestionController extends Controller
                 'id' => $question->id,
                 'period' => $question->period,
                 'name' => $question->name,
-                'questionOptions'=> array(
+                'questionOptions' => array(
                     array(
                         'questionText' => $question->question_text_1_1,
                         'answerText' => $question->answer_text_1_1,
@@ -150,7 +172,7 @@ class QuestionController extends Controller
                         'answerText' => $question->answer_text_4_1,
                     ),
                 ),
-                'questionOptionsSecond'=> array(
+                'questionOptionsSecond' => array(
                     array(
                         'questionText' => $question->question_text_1_2,
                         'answerText' => $question->answer_text_1_2,
@@ -168,7 +190,7 @@ class QuestionController extends Controller
                         'answerText' => $question->answer_text_4_2,
                     ),
                 ),
-                'questionOptionsThird'=> array(
+                'questionOptionsThird' => array(
                     array(
                         'questionText' => $question->question_text_1_3,
                         'answerText' => $question->answer_text_1_3,
@@ -186,7 +208,7 @@ class QuestionController extends Controller
                         'answerText' => $question->answer_text_4_3,
                     ),
                 ),
-                'questionOptionsFourth'=> array(
+                'questionOptionsFourth' => array(
                     array(
                         'questionText' => $question->question_text_1_4,
                         'answerText' => $question->answer_text_1_4,
@@ -204,7 +226,7 @@ class QuestionController extends Controller
                         'answerText' => $question->answer_text_4_4,
                     ),
                 ),
-                'questionOptionsFifth'=> array(
+                'questionOptionsFifth' => array(
                     array(
                         'questionText' => null,
                         'answerText' => null,
