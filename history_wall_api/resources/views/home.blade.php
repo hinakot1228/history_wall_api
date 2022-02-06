@@ -10,8 +10,8 @@
 <body>
     <p>ホーム</p>
     <div>
-        <a class="btn btn-primary" href="{{url('/question/create')}}" role="button">質問追加</a>
-        <a class="btn btn-primary" href="{{url('/questions')}}" role="button">質問一覧</a>
+        <a class="btn btn-outline-primary" href="{{route('questions.create')}}" role="button">質問追加</a>
+        <a class="btn btn-outline-danger" href="{{route('questions.index')}}" role="button">質問一覧</a>
     </div>
 </body>
 </html>
