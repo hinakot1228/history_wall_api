@@ -10,8 +10,9 @@ class QuestionController extends Controller
 {
     public function create()
     {
+        sleep(3.5);
         $question_texts = QuestionText::all();
-        return view('create', ['question_texts' => $question_texts]);
+        return view('pages.create', ['question_texts' => $question_texts]);
     }
 
     public function store(Request $request)
@@ -82,27 +83,20 @@ class QuestionController extends Controller
     public function index()
     {
         $questions = Question::all();
-        // dd($questions);
-
-        return view('index', ['questions' => $questions]);
+        return view('pages.index', ['questions' => $questions]);
     }
 
     public function show($id)
     {
         $question = Question::find($id);
-        return view('show', ['question' => $question]);
-    }
-
-    public function edit($id)
-    {
-        $question = Question::find($id);
-        return view('questions.edit', ['question' => $question]);
+        return view('pages.show', ['question' => $question]);
     }
 
     public function update(Request $request, $id)
     {
         $question = Question::find($id);
         $question->name = $request->name;
+        $question->period = $request->period;
         $question->question_text_1_1 = $request->question_text_1_1;
         $question->answer_text_1_1 = $request->answer_text_1_1;
         $question->question_text_1_2 = $request->question_text_1_2;
@@ -142,7 +136,7 @@ class QuestionController extends Controller
         $question->save();
 
         $questions = Question::all();
-        return view('index', ['questions' => $questions]);
+        return view('pages.index', ['questions' => $questions]);
     }
 
     public function getQuestion($id)
