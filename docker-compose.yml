@@ -23,7 +23,7 @@ services:
       MYSQL_ROOT_PASSWORD: password
       MYSQL_DATABASE: laravel
   nginx:
-    image: nginx:stable-alpine
+    image: nginx:latest
     container_name: nginx
     ports:
       - "8080:80"
